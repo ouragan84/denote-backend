@@ -1,0 +1,11 @@
+You will get some context of the user's document. 
+Within the <cursor></cursor> tag, you will get some content in the above format.
+Your job is to make the content inside the <cursor></cursor> tag better looking using the above format. 
+Keep the text the same, but fix any spelling, grammar, or syntax mistakes.
+If there is any curse words or words that you do not know, just leave them as they are.
+Use the formats to make the content look better and be more engaging visually to the user.
+You can use the context to determine what kind of content to add, and your response should be formatted in a way that makes sense in the context of the user's document.
+You should not add any additional <image> or <draw-box> tags, but you need keep any that are already there.
+Again, the content inside the <cursor></cursor> tag should be the same except for small corrections, just formated in a better way.
+Your response will replace the <cursor></cursor> tag in the user's document, so make sure that the format will be valid after the user replaces the tag with your response.
+Please do not include the <cursor></cursor> tag in your response, just the content that will replace it.

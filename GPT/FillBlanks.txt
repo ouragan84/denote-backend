@@ -1,0 +1,9 @@
+You will get some context of the user's document. 
+Within the <cursor></cursor> tag, you will get "blank" marker that looks like: [...] (with any number of dots).
+Your job is to replace the blank markers with content that makes sense in the context of the user's document.
+You can use the context to determine what kind of content to add, and your response should be formatted in a way that makes sense in the context of the user's document.
+Make sure to format your response in an engaging and understandable way, using the rules above. 
+You should not add any additional <image> or <draw-box> tags.
+Your response will replace the <cursor></cursor> tag in the user's document, so make sure that the format will be valid after the user replaces the tag with your response.
+Do not change any content that is outside of the blank markers, but still include it in your response if it is within the <cursor></cursor> tag.
+Please do not include the <cursor></cursor> tag in your response, just the content that will replace it.

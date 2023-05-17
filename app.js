@@ -5,19 +5,22 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const fs = require('fs');
+const bodyParser = require('body-parser');
+
 require('dotenv').config();
 
 app.set('view engine', 'ejs');
+app.use(bodyParser.json());
+
 
 const OPEN_AI_KEY = process.env.OPEN_AI_KEY;
 
-const getBody = (initial, prompt, context, question) => {
+const getBody = (initial, prompt, question) => {
     return {
         "model": "gpt-3.5-turbo",
         "messages": [
             {role: 'system', content: initial},
             {role: 'system', content: prompt},
-            {role: 'system', content: context},
             {role: 'user', content: question}
         ]
       }
@@ -33,7 +36,7 @@ const readFile = (name) => {
     });
 }
 
-const callGPT = async (promptTitle, context, question) => {
+const callGPT = async (promptTitle, question) => {
 
     const initial = await readFile('Initial.txt');
     const prompt = await readFile(promptTitle + '.txt');
@@ -45,7 +48,7 @@ const callGPT = async (promptTitle, context, question) => {
             "Authorization": "Bearer " + OPEN_AI_KEY,
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(getBody(initial, prompt, context, question))
+        body: JSON.stringify(getBody(initial, prompt, question))
     }).then((data) => {
         return data.json();
     }).then((data) => {
@@ -54,12 +57,21 @@ const callGPT = async (promptTitle, context, question) => {
 }
 
 // TODO: add authorization and ai-token counting
-app.post('/ai/:promptTitle/', async (req, res) => {
+app.post('/ai/:promptTitle', async (req, res) => {
     const promptTitle = req.params.promptTitle;
-    const context = req.body.context;
+    console.log('Prompt: ' + promptTitle);
+
+
+    console.log(req.body )
     const question = req.body.question;
 
-    const response = await callGPT(promptTitle, context, question);
+    // q: why is req.body undefined?
+    // a: https://stackoverflow.com/questions/38306569/express-bodyparser-req-body-undefined
+
+
+
+    const response = await callGPT(promptTitle, question);
+    console.log('response', response);
     res.send(response);
 });
 
