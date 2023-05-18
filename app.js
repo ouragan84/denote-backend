@@ -12,6 +12,12 @@ require('dotenv').config();
 app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 
+// make any unhandled exceptions not crash the app
+process.on('uncaughtException', function (err) {
+    console.log('fatal error abborted');
+    console.log(err);
+});
+
 
 const OPEN_AI_KEY = process.env.OPEN_AI_KEY;
 

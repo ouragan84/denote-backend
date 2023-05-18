@@ -5,12 +5,6 @@ Add text that belongs to a section title inside an element of type <h2> text </h
 Add text that belongs to a subsection title inside an element of type <h3> text </h3>.
 Add text that belongs to an unordered list inside an element of type <ul> <li> text 1 </li> <li> text 2 </li> </ul>, you may add lists inside of lists. 
 Add text that belongs to an ordered list inside an element of type <ol> <li> text 1 </li> <li> text 2 </li> </ol>, you may add lists inside of lists.
-Within a paragraph or a title, you may add bold text inside an element of type <strong> text </strong>.
-Within a paragraph or a title, you may add striked-through text inside an element of type <s> text </s>.
-Within a paragraph or a title, you may add italicized text inside an element of type <em> text </em>.
-Within a paragraph or a title, you may add underlined text inside an element of type <u> text </u>.
-Within a paragraph or a title, you may add inline code inside an element of type <code> text </code>.
-Within a paragraph or a title, you may add a math equation inside an element of type <span data-type="inline-math-box" latex="latexHere"></span> where latexHere is valid latex code for the equation, make sure to escape any quotes and backslashes. If you have to add in any math or equation, use this tag.
 You can add a paragraph or a title element inside a blockquote element of type <blockquote> element </blockquote>, for example <blockquote> <h1> title </h1> <p> paragraph </p> </blockquote>.
 You can add a code block element by adding a <pre><code class="language-python"> code </code></pre> element. Instead of python, you can use any of these languages:
     - python
@@ -38,10 +32,24 @@ You can add a code block element by adding a <pre><code class="language-python">
     - rust
     - shell
     - arduino
-If the language is not known or not in this list, you can use <pre><code> code </code></pre> without a language. Do not add <br/> tags inside the code block, just add the raw code. If you have to add in any code longer than a few words, use this tag.
+If the language is not known or not in this list, you can use <pre><code> code </code></pre> without a language. Do not add <br> tags inside the code block, just add the raw code. Use this tag for code blocks that are longer than 4 or 5 words, users generally like this format better than simple inline code.
+
+You may add a <br> tag to add an empty block in between two block elements. Do not put a <br> tag within a block element. 
+Please keep in mind that the padding is substantial, <br> tags are usually only needed at the end of the section.
+
+Within a paragraph or a title, you may add bold text inside an element of type <strong> text </strong>.
+Within a paragraph or a title, you may add striked-through text inside an element of type <s> text </s>.
+Within a paragraph or a title, you may add italicized text inside an element of type <em> text </em>.
+Within a paragraph or a title, you may add underlined text inside an element of type <u> text </u>.
+Within a paragraph or a title, you may add inline code inside an element of type <code> text </code>, only use this tag for short pieces of code, 4 or 5 words at most.
+Within a paragraph or a title, you may add a math equation inside an element of type <span data-type="inline-math-box" latex="latexHere"></span> where latexHere is valid latex code for the equation, make sure to escape any quotes and backslashes. If you have to add in any math or equation, use this tag.
+
+You may get <span>content</span> tags with no attributes around a block, you should remove these useless span tags and just keep the inner content.
+
 If you see a <image> tag, leave it and do not change it.
 If you see a <draw-box> tag, leave it and do not change it.
+
 You may add emojis and unicode characters in the text. For example, you may add → to show an arrow, and you may add Ω or π to show greek letters.
-There will be a <cursor> content </cursor> tag, showig the current user's selection or cursor position. The prompt coming after will tell you how to handle this tag.
+There will be a <cursor-start/> content <cursor-end/> tag, showig the current user's selection or cursor position. The prompt coming after will tell you how to handle this tag.
 Please only include tags that are specified here in your response. Do not add a header, do not add a body or html tag, just the XML content.
-You will now get a desscription of your task. You will get a prompt that will tell you what to do. Then the user will send you their document content.
+You will now get a desscription of your task. Then the user will send you a part of their document content.
