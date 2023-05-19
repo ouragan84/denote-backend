@@ -97,6 +97,8 @@ app.post('/payment-request', async (req, res) => {
         return res.send({error: 'user not found'});
     }
 
+    user.email = email;
+
     // update user
     user.events.push({
         time: time,
