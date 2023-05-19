@@ -127,9 +127,11 @@ app.post('/data', async (req, res) => {
         totalBannedUsers: allUsers.filter((user) => user.bannedAI).length,
         totalUnbannedUsers: allUsers.filter((user) => !user.bannedAI).length,
         totalUsersUsingAI: allUsers.filter((user) => user.timesUsedAI > 0).length,
+        totalUsersUsingAIInLastHour: allUsers.filter((user) => user.timesUsedAI > 0 && user.lastTimeOpened > Date.now() - 60*60*1000).length,
         totalUsersUsingAIInLast24Hours: allUsers.filter((user) => user.timesUsedAI > 0 && user.lastTimeOpened > Date.now() - 24*60*60*1000).length,
         totalUsersUsingAIInLast7Days: allUsers.filter((user) => user.timesUsedAI > 0 && user.lastTimeOpened > Date.now() - 7*24*60*60*1000).length,
         totalUsersUsingAIInLast30Days: allUsers.filter((user) => user.timesUsedAI > 0 && user.lastTimeOpened > Date.now() - 30*24*60*60*1000).length,
+        totalUsersActiveInLastHour: allUsers.filter((user) => user.lastTimeOpened > Date.now() - 60*60*1000).length,
         totalUsersActiveInLast24Hours: allUsers.filter((user) => user.lastTimeOpened > Date.now() - 24*60*60*1000).length,
         totalUsersActiveInLast7Days: allUsers.filter((user) => user.lastTimeOpened > Date.now() - 7*24*60*60*1000).length,
         totalUsersActiveInLast30Days: allUsers.filter((user) => user.lastTimeOpened > Date.now() - 30*24*60*60*1000).length,
@@ -184,7 +186,7 @@ app.post('/unban', async (req, res) => {
 
     // update user
     user.bannedAI = false;
-    user.timeUnbannedAI = null;
+    user.timeUnbannedAI = Date.now();
 
     user.save();
 
