@@ -1,13 +1,14 @@
 {
   "name": "denote-backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "Denote website and backend",
   "main": "app.js",
+  "repository": "https://www.github.com/ouragan84/denote-backend",
   "scripts": {
     "start": "node app.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "denote",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.0.3",
@@ -16,5 +17,8 @@
     "fs": "^0.0.1-security",
     "mongoose": "^7.1.1",
     "path": "^0.12.7"
+  },
+  "engines": {
+    "node": ">=18"
   }
 }
