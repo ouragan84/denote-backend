@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Denote</title>
+    <style>
+        body {
+            font-family: 'Open Sans';
+        }
+    </style>
+    <link rel="icon" href="<%= url + '/Denote-Icon-Rounded-256.ico' %>" type="image/x-icon" />
+
+</head>
+<body class="container">
+    <header
+    >
+        <%- include('partials/header'); %>
+    </header>
+
+    <main
+        style="margin-top: 100px;"
+        width="100%"
+        class="d-flex flex-column align-items-center"
+    >
+        <h1>About</h1>
+        <img src="<%= url + '/Denote-Icon-Rounded-1024.png' %>" alt="Denote Icon" width="100px" height="100px">
+        <p>Welcome to the about page!</p>
+        
+    </main>
+
+    <footer
+        style="margin-top: 100px;"
+        width="100%"
+        class="d-flex flex-column align-items-center"
+    >
+        <%- include('partials/footer'); %>
+    </footer>
+</body>
+</html>
