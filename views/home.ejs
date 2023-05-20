@@ -4,6 +4,69 @@
     <%- include('partials/head'); %>
     <title>Denote</title>
 </head>
+<style>
+    /* CSS */
+    .button-65 {
+    appearance: none;
+    backface-visibility: hidden;
+    background-color: #2f80ed;
+    border-radius: 10px;
+    border-style: none;
+    box-shadow: none;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-family: Inter,-apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    height: 50px;
+    letter-spacing: normal;
+    line-height: 1.5;
+    outline: none;
+    overflow: hidden;
+    padding: 14px 30px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    transform: translate3d(0, 0, 0);
+    transition: all .3s;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: top;
+    white-space: nowrap;
+    }
+
+    .button-65:hover {
+    background-color: #1366d6;
+    box-shadow: rgba(0, 0, 0, .05) 0 5px 30px, rgba(0, 0, 0, .05) 0 1px 4px;
+    opacity: 1;
+    transform: translateY(0);
+    transition-duration: .35s;
+    }
+
+    .button-65:hover:after {
+    opacity: .5;
+    }
+
+    .button-65:active {
+    box-shadow: rgba(0, 0, 0, .1) 0 3px 6px 0, rgba(0, 0, 0, .1) 0 0 10px 0, rgba(0, 0, 0, .1) 0 1px 4px -1px;
+    transform: translateY(2px);
+    transition-duration: .35s;
+    }
+
+    .button-65:active:after {
+    opacity: 1;
+    }
+
+    @media (min-width: 768px) {
+    .button-65 {
+        padding: 14px 22px;
+        width: 230px;
+    }
+    }
+</style>
 <body class="container">
     <header
     >
@@ -11,22 +74,42 @@
     </header>
 
     <main
-        style="margin-top: 100px;"
         width="100%"
-        class="d-flex flex-column align-items-center"
+        style="margin-top: 100px;display:flex; flex-direction: column;align-items:center;"
     >
-        <h1>Home</h1>
-        <img src="<%= url + '/Denote-Icon-Rounded-1024.png' %>" alt="Denote Icon" width="100px" height="100px">
-        <p>Welcome to the home page!</p>
+        <div style="display:flex; width: 100vw; height:230px;" >
+            <img src="<%= url + '/bg_l.jpg' %>" height="300px" alt="...">
+            <div>
+                <p style="font-size: 76px; line-height: 100px; font-weight: light; margin-bottom: 0; text-align: center;">All <u>note-taking</u> <i>tools</i> <b>in one app!</b></p>
+            </div>
+            <img src="<%= url + '/bg_r.jpg' %>" height="300px" alt="...">
+        </div>
 
-        <div>
+        <p style="font-size: 20px; font-weight: light; margin-bottom: 0; text-align: center; ">Enhance productivity with our helpful AI features!</p>
+
+        <div style="display:flex; ">
+            <div class="">
+              <img src="<%= url + '/denote_qstn.jpg' %>" class="d-block w-100" alt="...">
+            </div>
+            <div class="">
+              <img src="<%= url + '/denote_btfy.jpg' %>" class="d-block w-100" alt="...">
+            </div>
+            <div class="">
+              <img src="<%= url + '/denote_fibl.jpg' %>" class="d-block w-100" alt="...">
+            </div>
+        </div>
+
+
+
+        <div style="display: flex; width: 400px; justify-content: center; padding-top: 20px;">
+            
             <a
                 style="margin-right: 10px;"
                 classname="btn btn-primary btn-lg"
                 href="https://www.github.com/ouragan84/denote-releases/releases/download/v<%= version%>/Denote-<%= version%>-universal.dmg"
                 download="Denote-<%= version%>-Setup.dmg"
             >
-                <i class="fa fa-download"></i> Download for Mac
+                <button class="button-65" role="button">Download For Mac</button>
             </a>
             <a
                 style="margin-right: 10px;"
@@ -34,7 +117,7 @@
                 href="https://www.github.com/ouragan84/denote-releases/releases/download/v<%= version%>/Denote-<%= version%>-FILL-IN-ARCHITECTURE.exe"
                 download="Denote-<%= version%>-Setup.exe"
             >
-                <i class="fa fa-download"></i> Download for Windows
+            <button class="button-65" role="button">Download For Windows</button>
             </a>
         </div>
         
