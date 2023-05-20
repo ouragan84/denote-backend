@@ -308,6 +308,10 @@ app.get('/guide', function(req, res) {
     res.render('guide', {url: process.env.URL});
 });
 
+app.get('/feedback', function(req, res) {
+    res.render('feedback', {url: process.env.URL});
+});
+
 
  
 // === ADMIN NOTIFICATIONS ===
