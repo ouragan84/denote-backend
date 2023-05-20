@@ -376,8 +376,12 @@ app.get('/about', function(req, res) {
     res.render('about', {url: process.env.URL});
 });
 
+app.get('/guide', function(req, res) {
+    res.render('guide', {url: process.env.URL});
+});
 
 
+ 
 // === ADMIN NOTIFICATIONS ===
 
 
