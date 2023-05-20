@@ -59,6 +59,7 @@ setUpEventList('home_page_load');
 setUpEventList('about_page_load');
 setUpEventList('guide_page_load');
 setUpEventList('contact_page_load');
+setUpEventList('feedback_page_load');
 setUpEventList('download_mac_button');
 setUpEventList('download_windows_button');
 
@@ -326,38 +327,43 @@ const callGPT = async (promptTitle, question) => {
 
 // TODO: add authorization and ai-token counting
 app.post('/ai/:promptTitle', async (req, res) => {
-    const promptTitle = req.params.promptTitle;
-    const userID = req.body.userID;
+    try{
+        const promptTitle = req.params.promptTitle;
+        const userID = req.body.userID;
 
+        const user = await userSchema.findById(userID);
+        
+        if(!user){
+            return res.send({error: 'user not found'});
+        }
 
-    const user = await userSchema.findById(userID);
-    if(!user){
-        return res.send({error: 'user not found'});
+        // chec k if user is banned
+        if(user.bannedAI){
+            return res.send({error: 'user banned'});
+        }
+
+        // update user
+        user.lastTimeOpened = Date.now();
+        user.timesUsedAI += 1;
+        user.events.push({
+            time: Date.now(),
+            type: 'ai_request',
+            aditionalData: promptTitle,
+        });
+
+        // save user
+        user.save();
+
+        // console.log(req.body)
+        const question = req.body.question;
+
+        const response = await callGPT(promptTitle, question);
+        // console.log('response', response);
+        res.send(response);
+    }catch (err){
+        
+        res.send({error: 'Server Error, Please try again later'});
     }
-
-    // chec k if user is banned
-    if(user.bannedAI){
-        return res.send({error: 'user banned'});
-    }
-
-    // update user
-    user.lastTimeOpened = Date.now();
-    user.timesUsedAI += 1;
-    user.events.push({
-        time: Date.now(),
-        type: 'ai_request',
-        aditionalData: promptTitle,
-    });
-
-    // save user
-    user.save();
-
-    // console.log(req.body)
-    const question = req.body.question;
-
-    const response = await callGPT(promptTitle, question);
-    // console.log('response', response);
-    res.send(response);
 });
 
 
@@ -379,10 +385,12 @@ app.get('/about', function(req, res) {
 });
 
 app.get('/guide', function(req, res) {
+    addEventToList('guide_page_load', req.socket.remoteAddress);
     res.render('guide', {url: process.env.URL});
 });
 
 app.get('/feedback', function(req, res) {
+    addEventToList('feedback_page_load', req.socket.remoteAddress);
     res.render('feedback', {url: process.env.URL});
 });
 
@@ -416,7 +424,6 @@ app.get('/download/windows', function(req, res) {
 
 app.get('/contact', function(req, res) {
     addEventToList('contact_page_load', req.socket.remoteAddress);
-    
     res.redirect('mailto:denote.app@gmail.com?subject=Contact%20from%20website');
 });
 
