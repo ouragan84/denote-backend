@@ -160,6 +160,7 @@ app.post('/data', async (req, res) => {
     }
 
     const allUsers = await userSchema.find({});
+    const allEvents = await eventListSchema.find({});
     const data = {
         totalUsers: allUsers.length,
         totalPaidUsers: allUsers.filter((user) => user.isPaid).length,
@@ -174,7 +175,8 @@ app.post('/data', async (req, res) => {
         totalUsersActiveInLast24Hours: allUsers.filter((user) => user.lastTimeOpened > Date.now() - 24*60*60*1000).length,
         totalUsersActiveInLast7Days: allUsers.filter((user) => user.lastTimeOpened > Date.now() - 7*24*60*60*1000).length,
         totalUsersActiveInLast30Days: allUsers.filter((user) => user.lastTimeOpened > Date.now() - 30*24*60*60*1000).length,
-        users: allUsers
+        users: allUsers,
+        events: allEvents,
     }
 
     res.send(data);
@@ -332,7 +334,7 @@ app.post('/ai/:promptTitle', async (req, res) => {
         const userID = req.body.userID;
 
         const user = await userSchema.findById(userID);
-        
+
         if(!user){
             return res.send({error: 'user not found'});
         }
@@ -410,7 +412,7 @@ app.get('/download/macos', function(req, res) {
 
 app.get('/download/windows', function(req, res) {
     const version = process.env.VERSION;
-    const url = `https://www.github.com/ouragan84/denote-releases/releases/download/v${version}/Denote-${version}-Setup.exe`
+    const url = `https://www.github.com/ouragan84/denote-releases/releases/download/v${version}/Denote-Setup-${version}.exe`
 
     addEventToList('download_windows_button', req.socket.remoteAddress);
 
