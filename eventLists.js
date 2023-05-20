@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 
 const eventListSchema = new Schema({
     type:{
-        ttype: String,
+        type: String,
     },
     events: [
         {
