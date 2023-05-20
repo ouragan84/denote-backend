@@ -8,6 +8,7 @@ const fs = require('fs');
 const bodyParser = require('body-parser');
 const { default: mongoose } = require('mongoose');
 const userSchema = require('./user');
+const eventListSchema = require('./eventLists');
 
 
 // === CONFIG ===
@@ -23,6 +24,41 @@ process.on('uncaughtException', function (err) {
     console.log('fatal error abborted');
     console.log(err);
 });
+
+const setUpEventList = async (type) => {
+    let eventList = await eventListSchema.findOne({'type': type});
+
+    if(!eventList){
+        eventList = new eventListSchema({
+            type: type,
+            events: []
+        });
+
+        await eventList.save();
+    }
+
+    return eventList;
+}
+
+const addEventToList = async (type, aditionalData) => {
+    eventList = await setUpEventList(type);
+
+    eventList.events.push({
+        time: Date.now(),
+        aditionalData: aditionalData
+    });
+
+    eventList.save();
+}
+
+
+// set up event lists
+setUpEventList('home_page_load');
+setUpEventList('about_page_load');
+setUpEventList('guide_page_load');
+setUpEventList('contact_page_load');
+setUpEventList('download_mac_button');
+setUpEventList('download_windows_button');
 
 
 // === HANDLE USER ACTIONS ===
@@ -172,10 +208,6 @@ app.post('/unban', async (req, res) => {
         return res.status(400).send({error: 'wrong password'});
     }
 
-    if(req.body.password !== process.env.PASSWORD){
-        return res.status(400).send({error: 'wrong password'});
-    }
-
     const userID = req.body.userID;
 
     const user = await userSchema.findById(userID);
@@ -198,6 +230,25 @@ app.post('/set-paid', async (req, res) => {
     if(req.body.password !== process.env.PASSWORD){
         return res.status(400).send({error: 'wrong password'});
     }
+
+    const userID = req.body.userID;
+    const days = req.body.days;
+
+    const user = await userSchema.findById(userID);
+    
+    if(!user){
+        return res.send({error: 'user not found'});
+    }
+
+    // update user
+    user.bannedAI = false;
+    user.timeUnbannedAI = Date.now();
+    user.isPaid = true;
+    user.timePaymentExpires = Date.now() + (days ? days*24*60*60*1000 : 30*24*60*60*1000);
+
+    user.save();
+
+    return res.send({status: 'ok'});
 });
 
 // set a user as unpaid, using our password
@@ -205,6 +256,23 @@ app.post('/set-unpaid', async (req, res) => {
     if(req.body.password !== process.env.PASSWORD){
         return res.status(400).send({error: 'wrong password'});
     }
+
+    const userID = req.body.userID;
+    const days = req.body.days;
+
+    const user = await userSchema.findById(userID);
+    
+    if(!user){
+        return res.send({error: 'user not found'});
+    }
+
+    // update user
+    user.isPaid = false;
+    user.timePaymentExpires = Date.now();
+
+    user.save();
+
+    return res.send({status: 'ok'});
 });
 
 
@@ -299,10 +367,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // send our index.html file to the user for the home page
 app.get('/', function(req, res) {
+    addEventToList('home_page_load', req.socket.remoteAddress);
     res.render('home', {url: process.env.URL, version: process.env.VERSION});
 });
 
 app.get('/about', function(req, res) {
+    addEventToList('about_page_load', req.socket.remoteAddress);
     res.render('about', {url: process.env.URL});
 });
 
