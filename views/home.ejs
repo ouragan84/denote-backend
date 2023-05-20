@@ -104,20 +104,20 @@
         <div style="display: flex; width: 400px; justify-content: center; padding-top: 20px;">
             
             <a
-                style="margin-right: 10px;"
+                style="margin-right: 10px; font-size: 24pt;"
                 classname="btn btn-primary btn-lg"
-                href="https://www.github.com/ouragan84/denote-releases/releases/download/v<%= version%>/Denote-<%= version%>-universal.dmg"
+                href="<%= url + '/download/macos'%>"
                 download="Denote-<%= version%>-Setup.dmg"
             >
-                <button class="button-65" role="button">Download For Mac</button>
+                <button class="button-65" role="button" style="height: 4rem; font-size: 14pt; width: 17rem;"><i class="fa fa-apple"></i> Download For Mac</button>
             </a>
             <a
                 style="margin-right: 10px;"
                 classname="btn btn-primary btn-lg"
-                href="https://www.github.com/ouragan84/denote-releases/releases/download/v<%= version%>/Denote-<%= version%>-FILL-IN-ARCHITECTURE.exe"
+                href="<%= url + '/download/windows'%>"
                 download="Denote-<%= version%>-Setup.exe"
             >
-            <button class="button-65" role="button">Download For Windows</button>
+                <button class="button-65" role="button" style="height: 4rem; font-size: 14pt; width: 17rem;"><i class="fa fa-windows"></i> Download For Windows</button>
             </a>
         </div>
         

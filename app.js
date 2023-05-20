@@ -10,6 +10,8 @@ const { default: mongoose } = require('mongoose');
 const userSchema = require('./user');
 const eventListSchema = require('./eventLists');
 
+const https = require('https');
+
 
 // === CONFIG ===
 
@@ -381,8 +383,38 @@ app.get('/guide', function(req, res) {
 });
 
 
+// === DOWNLOADS ===
+
+
+app.get('/download/macos', function(req, res) {
+    const version = process.env.VERSION;
+    const url = `https://www.github.com/ouragan84/denote-releases/releases/download/v${version}/Denote-${version}-universal.dmg`
+
+    addEventToList('download_mac_button', req.socket.remoteAddress);
+
+    // redirect to download
+    res.redirect(url);
+});
+
+app.get('/download/windows', function(req, res) {
+    const version = process.env.VERSION;
+    const url = `https://www.github.com/ouragan84/denote-releases/releases/download/v${version}/Denote-${version}-Setup.exe`
+
+    addEventToList('download_windows_button', req.socket.remoteAddress);
+
+    // redirect to download
+    res.redirect(url);
+});
+
  
 // === ADMIN NOTIFICATIONS ===
+
+
+app.get('/contact', function(req, res) {
+    addEventToList('contact_page_load', req.socket.remoteAddress);
+    
+    res.redirect('mailto:denote.app@gmail.com?subject=Contact%20from%20website');
+});
 
 
 const notifyAdmins = (message) => {
