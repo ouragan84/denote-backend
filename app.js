@@ -71,6 +71,8 @@ setUpEventList('download_windows_button');
 app.post('/register', async (req, res) => {
     const platform = req.body.platform;
     const timeCreated = Date.now()
+    const computerID = req.body.computerID? req.body.computerID : '';
+    const homedir = req.body.homedir? req.body.homedir : '';
 
     const user = new userSchema({
         platform: platform,
@@ -89,7 +91,9 @@ app.post('/register', async (req, res) => {
         bannedAI: false,
         timeUnbannedAI: null,
         isPaid: false,
-        timePaymentExpires: null
+        timePaymentExpires: null,
+        computerID: computerID,
+        homedir: homedir
     });
 
     await user.save();

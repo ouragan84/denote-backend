@@ -51,6 +51,14 @@ const userSchema = new Schema({
         type: Date,
         default: null
     },
+    computerID:{
+        type: String,
+        default: ''
+    },
+    homedir:{
+        type: String,
+        homedir: ''
+    }
 })
 
 module.exports = mongoose.model('DenoteBetaUser', userSchema)
