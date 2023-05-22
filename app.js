@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 const { default: mongoose } = require('mongoose');
 const userSchema = require('./user');
 const eventListSchema = require('./eventLists');
+const mobileDetect = require('mobile-detect');
 
 const https = require('https');
 
@@ -382,7 +383,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 // send our index.html file to the user for the home page
 app.get('/', function(req, res) {
     addEventToList('home_page_load', req.socket.remoteAddress);
-    res.render('home', {url: process.env.URL, version: process.env.VERSION});
+    const md = new mobileDetect(req.headers['user-agent']);
+    const isMobile = md.mobile();
+    res.render(isMobile ? 'homem' : 'home', {url: process.env.URL, version: process.env.VERSION});
 });
 
 app.get('/about', function(req, res) {
