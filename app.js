@@ -10,6 +10,7 @@ const { default: mongoose } = require('mongoose');
 const userSchema = require('./user');
 const eventListSchema = require('./eventLists');
 const mobileDetect = require('mobile-detect');
+const AI = require('./ai');
 
 const https = require('https');
 
@@ -288,50 +289,6 @@ app.post('/set-unpaid', async (req, res) => {
 
 // === AI API ===
 
-
-const OPEN_AI_KEY = process.env.OPEN_AI_KEY;
-
-const getBody = (initial, prompt, question) => {
-    return {
-        "model": "gpt-3.5-turbo",
-        "messages": [
-            {role: 'system', content: initial},
-            {role: 'system', content: prompt},
-            {role: 'user', content: question}
-        ]
-    }
-} 
-
-const readFile = (name) => {
-    const filepath = path.join(__dirname, 'GPT', name);
-    return new Promise((resolve, reject) => {
-        fs.readFile(filepath, 'utf8', (err, data) => {
-            if(err) reject(err);
-            else resolve(data);
-        });
-    });
-}
-
-const callGPT = async (promptTitle, question) => {
-
-    const initial = await readFile('Initial.txt');
-    const prompt = await readFile(promptTitle + '.txt');
-
-    return fetch("https://api.openai.com/v1/chat/completions", 
-    {
-        method: "POST",
-        headers: {
-            "Authorization": "Bearer " + OPEN_AI_KEY,
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(getBody(initial, prompt, question))
-    }).then((data) => {
-        return data.json();
-    }).then((data) => {
-        return data.choices[0];
-    });
-}
-
 // TODO: add authorization and ai-token counting
 app.post('/ai/:promptTitle', async (req, res) => {
     try{
@@ -361,14 +318,25 @@ app.post('/ai/:promptTitle', async (req, res) => {
         // save user
         user.save();
 
-        // console.log(req.body)
-        const question = req.body.question;
+        let response;
 
-        const response = await callGPT(promptTitle, question);
-        // console.log('response', response);
+        if ( promptTitle == 'Prompt' )
+        {
+            response = await AI.getAIPrompt(req.body.context, req.body.prompt);
+        }
+        else if ( promptTitle == 'Beautify' )
+        {
+            response = await AI.getAIBeautify(req.body.context);
+        }
+        else if ( promptTitle == 'FillBlanks' )
+        {
+            response = await AI.getAIFillBlanks(req.body.context);
+        } else {
+            return res.send({error: 'invalid prompt title'});
+        }
+
         res.send(response);
     }catch (err){
-        
         res.send({error: 'Server Error, Please try again later'});
     }
 });
